@@ -115,4 +115,13 @@ footer {
   opacity: 1;
   transform: translateY(0);
 }
+.card {
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 35px rgba(0,0,0,.08);
+}
+
 
