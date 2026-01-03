@@ -111,7 +111,13 @@ const planets = [];
 
 function createPlanet(size, distance, speed, color, sectionId) {
   const geo = new THREE.SphereGeometry(size, 32, 32);
-  const mat = new THREE.MeshStandardMaterial({ color emissive: color, emissiveIntensity: 0.3  });
+
+  const mat = new THREE.MeshStandardMaterial({
+    color: color,
+    emissive: color,
+    emissiveIntensity: 0.6
+  });
+
   const planet = new THREE.Mesh(geo, mat);
 
   planet.userData = { distance, angle: Math.random(), speed, sectionId };
@@ -119,10 +125,11 @@ function createPlanet(size, distance, speed, color, sectionId) {
   planets.push(planet);
 }
 
-createPlanet(0.18, 2.5, 0.01, 0x3a86ff, "about");
-createPlanet(0.22, 3.5, 0.007, 0xfec89a, "experience");
-createPlanet(0.16, 4.5, 0.009, 0xff4d6d, "projects");
-createPlanet(0.14, 5.5, 0.006, 0xffd166, "contact");
+
+createPlanet(0.5, 1.5, 0.01, 0x3a86ff, "about");
+createPlanet(0.5, 2.0, 0.007, 0xfec89a, "experience");
+createPlanet(0.5, 2.5, 0.009, 0xff4d6d, "projects");
+createPlanet(0.5, 3.0, 0.006, 0xffd166, "contact");
 
 
 // ---------- LABELS ----------
@@ -188,6 +195,7 @@ window.addEventListener("resize", () => {
 
 </body>
 </html>
+
 
 
 
