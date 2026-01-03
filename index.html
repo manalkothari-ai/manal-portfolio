@@ -75,19 +75,75 @@ const observer = new IntersectionObserver(entries => {
 });
 
 sections.forEach(section => observer.observe(section));
+<script>
+const sections = document.querySelectorAll(".section");
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add("show");
+  });
+});
+
+sections.forEach(section => observer.observe(section));
 </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/controls/OrbitControls.js"></script>
 
 <script>
-  function addLabel(text, planet) {
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(
+  60,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
+camera.position.z = 3;
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.getElementById("earth-container").appendChild(renderer.domElement);
+
+// 🌍 Earth
+const textureLoader = new THREE.TextureLoader();
+const earthTexture = textureLoader.load("image/earth.jpg");
+const geometry = new THREE.SphereGeometry(1, 64, 64);
+const material = new THREE.MeshPhongMaterial({ map: earthTexture });
+const earth = new THREE.Mesh(geometry, material);
+scene.add(earth);
+
+// 💡 Lights
+scene.add(new THREE.PointLight(0xffffff, 1)).position.set(5, 3, 5);
+scene.add(new THREE.AmbientLight(0x404040));
+
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+// ---------- PLANETS ----------
+const planets = [];
+
+function createPlanet(size, distance, speed, color, sectionId) {
+  const geo = new THREE.SphereGeometry(size, 32, 32);
+  const mat = new THREE.MeshStandardMaterial({ color });
+  const planet = new THREE.Mesh(geo, mat);
+
+  planet.userData = { distance, angle: Math.random(), speed, sectionId };
+  scene.add(planet);
+  planets.push(planet);
+}
+
+createPlanet(0.18, 1.6, 0.01, 0x3a86ff, "about");
+createPlanet(0.22, 2.4, 0.007, 0xfec89a, "experience");
+createPlanet(0.16, 3.0, 0.009, 0xff4d6d, "projects");
+createPlanet(0.14, 3.6, 0.006, 0xffd166, "contact");
+
+// ---------- LABELS ----------
+function addLabel(text, planet) {
   const div = document.createElement("div");
   div.textContent = text;
   div.style.position = "absolute";
   div.style.color = "white";
   div.style.fontSize = "13px";
   div.style.pointerEvents = "none";
-
   document.body.appendChild(div);
   planet.userData.label = div;
 }
@@ -97,104 +153,24 @@ addLabel("Experience", planets[1]);
 addLabel("Projects", planets[2]);
 addLabel("Contact", planets[3]);
 
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(
-    60,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  );
-  camera.position.z = 3;
-
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  document.getElementById("earth-container").appendChild(renderer.domElement);
-
-  const textureLoader = new THREE.TextureLoader();
-  const earthTexture = textureLoader.load("image/earth.jpg");
-  const geometry = new THREE.SphereGeometry(1, 64, 64);
-  const material = new THREE.MeshPhongMaterial({ map: earthTexture });
-  const earth = new THREE.Mesh(geometry, material);
-  scene.add(earth);
-
-  const light = new THREE.PointLight(0xffffff, 1);
-  light.position.set(5, 3, 5);
-  scene.add(light);
-
-  const ambient = new THREE.AmbientLight(0x404040);
-  scene.add(ambient);
-
-  const controls = new THREE.OrbitControls(camera, renderer.domElement);
-const planets = [];
-
-// helper function to create planets
-function createPlanet(size, distance, speed, color, sectionId) {
-  const geometry = new THREE.SphereGeometry(size, 32, 32);
-  const material = new THREE.MeshStandardMaterial({ color });
-  const planet = new THREE.Mesh(geometry, material);
-
-  planet.userData = { distance, angle: Math.random(), speed, sectionId };
-
-  scene.add(planet);
-  planets.push(planet);
-}
-
-// 🌞 Sun (center)
-const sunGeometry = new THREE.SphereGeometry(0.4, 32, 32);
-const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffdd66 });
-const sun = new THREE.Mesh(sunGeometry, sunMaterial);
-scene.add(sun);
-
-// 🌍 Earth → About
-createPlanet(0.18, 1.6, 0.01, 0x3a86ff, "about");
-
-// 🪐 Saturn → Experience
-createPlanet(0.22, 2.4, 0.007, 0xfec89a, "experience");
-
-// 🔴 Mars → Projects
-createPlanet(0.16, 3.0, 0.009, 0xff4d6d, "projects");
-
-// 🟡 Venus → Contact
-createPlanet(0.14, 3.6, 0.006, 0xffd166, "contact");
-
+// ---------- CLICK ----------
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
-window.addEventListener("click", (event) => {
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+window.addEventListener("click", e => {
+  mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 
   raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(planets);
+  const hits = raycaster.intersectObjects(planets);
 
-  if (intersects.length > 0) {
-    const section = intersects[0].object.userData.sectionId;
-    document.getElementById(section).scrollIntoView({ behavior: "smooth" });
-  }
-});
-  let hoveredPlanet = null;
-
-window.addEventListener("mousemove", (event) => {
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-  raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(planets);
-
-  if (intersects.length > 0) {
-    if (hoveredPlanet !== intersects[0].object) {
-      if (hoveredPlanet) hoveredPlanet.material.emissive.set(0x000000);
-      hoveredPlanet = intersects[0].object;
-      hoveredPlanet.material.emissive.set(0xffffff);
-    }
-  } else if (hoveredPlanet) {
-    hoveredPlanet.material.emissive.set(0x000000);
-    hoveredPlanet = null;
-  }
+  if (hits.length)
+    document
+      .getElementById(hits[0].object.userData.sectionId)
+      .scrollIntoView({ behavior: "smooth" });
 });
 
-
+// ---------- ANIMATE ----------
 function animate() {
   requestAnimationFrame(animate);
 
@@ -211,15 +187,17 @@ function animate() {
 }
 
 animate();
-  window.addEventListener("resize", () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  });
+
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
 </script>
 
 </body>
 </html>
+
 
 
 
