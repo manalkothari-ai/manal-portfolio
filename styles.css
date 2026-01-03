@@ -166,6 +166,10 @@ body::before {
   background: rgba(0,0,0,0.3);
   z-index: -1;
 }
+html, body {
+  background: transparent !important;
+}
+
 
 
 
