@@ -173,6 +173,27 @@ window.addEventListener("click", (event) => {
     document.getElementById(section).scrollIntoView({ behavior: "smooth" });
   }
 });
+  let hoveredPlanet = null;
+
+window.addEventListener("mousemove", (event) => {
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObjects(planets);
+
+  if (intersects.length > 0) {
+    if (hoveredPlanet !== intersects[0].object) {
+      if (hoveredPlanet) hoveredPlanet.material.emissive.set(0x000000);
+      hoveredPlanet = intersects[0].object;
+      hoveredPlanet.material.emissive.set(0xffffff);
+    }
+  } else if (hoveredPlanet) {
+    hoveredPlanet.material.emissive.set(0x000000);
+    hoveredPlanet = null;
+  }
+});
+
 
 function animate() {
   requestAnimationFrame(animate);
@@ -199,6 +220,7 @@ animate();
 
 </body>
 </html>
+
 
 
 
