@@ -96,9 +96,6 @@ sections.forEach(section => observer.observe(section));
 
   const textureLoader = new THREE.TextureLoader();
   const earthTexture = textureLoader.load("image/earth.jpg");
-
-  );
-
   const geometry = new THREE.SphereGeometry(1, 64, 64);
   const material = new THREE.MeshPhongMaterial({ map: earthTexture });
   const earth = new THREE.Mesh(geometry, material);
@@ -130,6 +127,7 @@ sections.forEach(section => observer.observe(section));
 
 </body>
 </html>
+
 
 
 
