@@ -137,7 +137,7 @@ body {
 }
 
 .stars {
-  background: url("https://i.ibb.co/3f4Qk6S/stars.png") repeat;
+  background: url("https://www.solarsystemscope.com/textures/download/2k_stars_milky_way.jpg") repeat;
   position: fixed;
   inset: 0;
   animation: moveStars 50s linear infinite;
@@ -159,6 +159,7 @@ canvas { display: block; }
   pointer-events: none;   /* lets you still scroll + click menu */
   z-index: 0;
 }
+
 
 
 
