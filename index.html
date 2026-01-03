@@ -80,6 +80,23 @@ sections.forEach(section => observer.observe(section));
 <script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/controls/OrbitControls.js"></script>
 
 <script>
+  function addLabel(text, planet) {
+  const div = document.createElement("div");
+  div.textContent = text;
+  div.style.position = "absolute";
+  div.style.color = "white";
+  div.style.fontSize = "13px";
+  div.style.pointerEvents = "none";
+
+  document.body.appendChild(div);
+  planet.userData.label = div;
+}
+
+addLabel("About", planets[0]);
+addLabel("Experience", planets[1]);
+addLabel("Projects", planets[2]);
+addLabel("Contact", planets[3]);
+
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(
     60,
@@ -182,6 +199,7 @@ animate();
 
 </body>
 </html>
+
 
 
 
