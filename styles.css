@@ -172,6 +172,11 @@ html, body {
 .card {
   color: #222;
 }
+.card {
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(4px);
+}
+
 
 
 
