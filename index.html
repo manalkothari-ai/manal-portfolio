@@ -95,7 +95,7 @@ document.getElementById("earth-container").appendChild(renderer.domElement);
 // 🌍 Earth
 const textureLoader = new THREE.TextureLoader();
 const earthTexture = textureLoader.load("image/earth.jpg");
-const geometry = new THREE.SphereGeometry(1, 64, 64);
+const geometry = new THREE.SphereGeometry(0.6, 64, 64);
 const material = new THREE.MeshPhongMaterial({ map: earthTexture });
 const earth = new THREE.Mesh(geometry, material);
 scene.add(earth);
@@ -119,10 +119,11 @@ function createPlanet(size, distance, speed, color, sectionId) {
   planets.push(planet);
 }
 
-createPlanet(0.18, 1.6, 0.01, 0x3a86ff, "about");
-createPlanet(0.22, 2.4, 0.007, 0xfec89a, "experience");
-createPlanet(0.16, 3.0, 0.009, 0xff4d6d, "projects");
-createPlanet(0.14, 3.6, 0.006, 0xffd166, "contact");
+createPlanet(0.18, 2.5, 0.01, 0x3a86ff, "about");
+createPlanet(0.22, 3.5, 0.007, 0xfec89a, "experience");
+createPlanet(0.16, 4.5, 0.009, 0xff4d6d, "projects");
+createPlanet(0.14, 5.5, 0.006, 0xffd166, "contact");
+
 
 // ---------- LABELS ----------
 function addLabel(text, planet) {
@@ -185,6 +186,7 @@ window.addEventListener("resize", () => {
 
 </body>
 </html>
+
 
 
 
