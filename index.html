@@ -86,7 +86,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.z = 3;
+camera.position.z = 6;
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -111,7 +111,7 @@ const planets = [];
 
 function createPlanet(size, distance, speed, color, sectionId) {
   const geo = new THREE.SphereGeometry(size, 32, 32);
-  const mat = new THREE.MeshStandardMaterial({ color });
+  const mat = new THREE.MeshStandardMaterial({ color emissive: color, emissiveIntensity: 0.3  });
   const planet = new THREE.Mesh(geo, mat);
 
   planet.userData = { distance, angle: Math.random(), speed, sectionId };
@@ -169,6 +169,8 @@ function animate() {
     p.userData.angle += p.userData.speed;
     p.position.x = Math.cos(p.userData.angle) * p.userData.distance;
     p.position.z = Math.sin(p.userData.angle) * p.userData.distance;
+    p.position.y = 0.5; lift plannet a bit
+
   });
 
   controls.update();
@@ -186,6 +188,7 @@ window.addEventListener("resize", () => {
 
 </body>
 </html>
+
 
 
 
