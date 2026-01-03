@@ -127,6 +127,30 @@ footer {
   transform: translateY(-3px) scale(1.02);
   box-shadow: 0 10px 20px rgba(0,0,0,.1);
 }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #1e215d, #070720 60%);
+  background-attachment: fixed;
+  color: white;
+  overflow: hidden;
+}
+
+.stars {
+  background: url("https://i.ibb.co/3f4Qk6S/stars.png") repeat;
+  position: fixed;
+  inset: 0;
+  animation: moveStars 50s linear infinite;
+  z-index: -1;
+}
+
+@keyframes moveStars {
+  from { transform: translateY(0); }
+  to { transform: translateY(-1000px); }
+}
+
+canvas { display: block; }
+
 
 
 
