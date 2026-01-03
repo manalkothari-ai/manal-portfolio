@@ -109,15 +109,70 @@ sections.forEach(section => observer.observe(section));
   scene.add(ambient);
 
   const controls = new THREE.OrbitControls(camera, renderer.domElement);
+const planets = [];
 
-  function animate() {
-    requestAnimationFrame(animate);
-    earth.rotation.y += 0.002;
-    controls.update();
-    renderer.render(scene, camera);
+// helper function to create planets
+function createPlanet(size, distance, speed, color, sectionId) {
+  const geometry = new THREE.SphereGeometry(size, 32, 32);
+  const material = new THREE.MeshStandardMaterial({ color });
+  const planet = new THREE.Mesh(geometry, material);
+
+  planet.userData = { distance, angle: Math.random(), speed, sectionId };
+
+  scene.add(planet);
+  planets.push(planet);
+}
+
+// 🌞 Sun (center)
+const sunGeometry = new THREE.SphereGeometry(0.4, 32, 32);
+const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffdd66 });
+const sun = new THREE.Mesh(sunGeometry, sunMaterial);
+scene.add(sun);
+
+// 🌍 Earth → About
+createPlanet(0.18, 1.6, 0.01, 0x3a86ff, "about");
+
+// 🪐 Saturn → Experience
+createPlanet(0.22, 2.4, 0.007, 0xfec89a, "experience");
+
+// 🔴 Mars → Projects
+createPlanet(0.16, 3.0, 0.009, 0xff4d6d, "projects");
+
+// 🟡 Venus → Contact
+createPlanet(0.14, 3.6, 0.006, 0xffd166, "contact");
+
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+window.addEventListener("click", (event) => {
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObjects(planets);
+
+  if (intersects.length > 0) {
+    const section = intersects[0].object.userData.sectionId;
+    document.getElementById(section).scrollIntoView({ behavior: "smooth" });
   }
-  animate();
+});
 
+function animate() {
+  requestAnimationFrame(animate);
+
+  earth.rotation.y += 0.002;
+
+  planets.forEach(p => {
+    p.userData.angle += p.userData.speed;
+    p.position.x = Math.cos(p.userData.angle) * p.userData.distance;
+    p.position.z = Math.sin(p.userData.angle) * p.userData.distance;
+  });
+
+  controls.update();
+  renderer.render(scene, camera);
+}
+
+animate();
   window.addEventListener("resize", () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
@@ -127,6 +182,7 @@ sections.forEach(section => observer.observe(section));
 
 </body>
 </html>
+
 
 
 
