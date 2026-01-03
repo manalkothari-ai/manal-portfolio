@@ -169,6 +169,10 @@ body::before {
 html, body {
   background: transparent !important;
 }
+.card {
+  color: #222;
+}
+
 
 
 
