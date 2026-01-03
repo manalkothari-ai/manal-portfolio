@@ -89,7 +89,8 @@ sections.forEach(section => observer.observe(section));
   );
   camera.position.z = 3;
 
-  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.getElementById("earth-container").appendChild(renderer.domElement);
 
@@ -129,6 +130,7 @@ sections.forEach(section => observer.observe(section));
 
 </body>
 </html>
+
 
 
 
