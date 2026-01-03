@@ -177,6 +177,10 @@ html, body {
   backdrop-filter: blur(4px);
 }
 
+html, body, .section, .hero {
+  background: transparent !important;
+}
+
 
 
 
