@@ -181,6 +181,14 @@ html, body {
 html, body, .section, .hero {
   background: transparent !important;
 }
+.hero,
+nav,
+.section,
+footer {
+  position: relative;
+  z-index: 5;   /* always above planets */
+}
+
 
 
 
