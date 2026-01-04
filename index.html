@@ -86,7 +86,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.z = 6;
+camera.position.z = 3;
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -100,7 +100,7 @@ const material = new THREE.MeshStandardMaterial({
   roughness: 0.4
 });
 const earth = new THREE.Mesh(geometry, material);
-earth.position.y = 1;
+earth.position.set( 0,0,o);
 scene.add(earth);
 
 
@@ -180,7 +180,7 @@ function animate() {
     p.userData.angle += p.userData.speed;
     p.position.x = Math.cos(p.userData.angle) * p.userData.distance;
     p.position.z = Math.sin(p.userData.angle) * p.userData.distance;
-    p.position.y = 0.5;
+    p.position.y = 0;
 
   });
 
@@ -199,6 +199,7 @@ window.addEventListener("resize", () => {
 
 </body>
 </html>
+
 
 
 
