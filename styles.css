@@ -196,6 +196,14 @@ footer {
 .section h3 {
   color: white;
 }
+header,
+section,
+footer,
+nav {
+  position: relative;
+  z-index: 10;
+}
+
 
 
 
