@@ -111,11 +111,10 @@ const planets = [];
 
 function createPlanet(size, distance, speed, color, sectionId) {
   const geo = new THREE.SphereGeometry(size, 32, 32);
-
-  const mat = new THREE.MeshStandardMaterial({
-    color: color,
-    emissive: color,
-    emissiveIntensity: 0.6
+const mat = new THREE.MeshStandardMaterial({
+  color: color,
+  metalness: 0.4,
+  roughness: 0.3
   });
 
   const planet = new THREE.Mesh(geo, mat);
@@ -195,6 +194,7 @@ window.addEventListener("resize", () => {
 
 </body>
 </html>
+
 
 
 
