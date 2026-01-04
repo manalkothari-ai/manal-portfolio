@@ -189,6 +189,13 @@ footer {
   z-index: 5;   /* always above planets */
 }
 
+.section {
+  color: white;
+}
+
+.section h3 {
+  color: white;
+}
 
 
 
