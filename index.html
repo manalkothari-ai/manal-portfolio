@@ -94,7 +94,7 @@ document.getElementById("earth-container").appendChild(renderer.domElement);
 
 // 🌍 Earth
 const textureLoader = new THREE.TextureLoader();
-const earthTexture = textureLoader.load("https://raw.githubusercontent.com/ManalKothari-ai/manal-portfolio/main/image/earth.jpg");
+const earthTexture = textureLoader.load( "https://manalkothari-ai.github.io/manal-portfolio/image/earth.jpg");
 const geometry = new THREE.SphereGeometry(0.6, 64, 64);
 const material = new THREE.MeshPhongMaterial({ map: earthTexture });
 const earth = new THREE.Mesh(geometry, material);
@@ -194,6 +194,7 @@ window.addEventListener("resize", () => {
 
 </body>
 </html>
+
 
 
 
